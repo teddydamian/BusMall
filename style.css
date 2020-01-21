@@ -1,0 +1,13 @@
+html{
+    text-align: center;
+}
+img{
+    height : 300px;
+
+}
+
+ul{
+    line-height: 10px;
+    text-decoration: none;
+    list-style-type: none;
+}
