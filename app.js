@@ -57,7 +57,7 @@ function renderItems(){
 
 //Total Voting round-----------------------------------------------------------------------------------------------------------------------
 var votes = 0;
-var totalRounds = 25;
+var totalRounds = 10;
 
 //EVENT LISTENER---------------------------------------------------------------------------------------------------------------------------
 var handleClickOnItems = function(event){
@@ -85,21 +85,47 @@ var handleClickOnItems = function(event){
     itemParent.removeEventListener('click', handleClickOnItems);
     alert('Thanks for voting!');
 
+    var labelData = [];
+    var clickData = [];
+    var viewData = [];
 
     for(var i = 0; i < Items.allImages.length; i++){
       var item = Items.allImages[i];
+      labelData.push(item.name);
+      clickData.push(item.clicked);
+      viewData.push(item.views);
 
-      var oList = document.createElement('ul');
-      var list = document.createElement('li');
-      list.textContent = (`${item.name} had ${item.clicked} votes and was shown ${item.views} times.`);
-      oList.appendChild(list);
-      listHTML.appendChild(oList);
+      var ctx = document.getElementById('chart').getContext('2d');
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labelData,
+          datasets: [{
+            label: '# of Clicks',
+            data: clickData,
+            backgroundColor: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue'],
+          }, {
+            label: '# of Views',
+            data: viewData,
+            backgroundColor: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue'],
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      }); 
     }
   }
   else{
     renderItems();
   }
-
 };
 
 // ITEMS ARRAY---------------------------------------------------------------------------------------------------------------------
@@ -133,3 +159,44 @@ renderItems();
 // Event for Items-----------------------------------------------------------------------------------------------------------
 itemParent.addEventListener('click', handleClickOnItems)
 ;
+
+
+
+
+// function renderChart() {
+//   var labelData = [];
+//   var clickData = [];
+//   var viewData = [];
+//   for (var i = 0; i < Items.allImages.length; i++) {
+//     labelData.push(Items.allImages[i].name);
+//     clickData.push(Items.allImages[i].clicks);
+//     viewData.push(Items.allImages[i].views);
+//   }
+
+//   var ctx = document.getElementById('chart').getContext('2d');
+
+//   new Chart(ctx, {
+//     type: 'bar',
+//     data: {
+//       labels: labelData,
+//       datasets: [{
+//         label: '# of Clicks',
+//         data: labelData.clicked,
+//         backgroundColor: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+//       }, {
+//         label: '# of Views',
+//         data: labelData.views,
+//         backgroundColor: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+//       }]
+//     },
+//     options: {
+//       scales: {
+//         yAxes: [{
+//           ticks: {
+//             beginAtZero: true
+//           }
+//         }]
+//       }
+//     }
+//   });
+// }
