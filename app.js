@@ -1,19 +1,26 @@
 'use strict';
 
 //GLOBAL VARS----------------------------------------------------------------------------------------------------------------------------
+var allItems = JSON.parse(localStorage.getItem('item'));
 
 var itemParent = document.getElementById('items');
 var leftItems = document.getElementById('leftItems');
 var midItems = document.getElementById('midItems');
 var rightItems= document.getElementById('rightItems');
-var listHTML = document.getElementById('list');
+// var listHTML = document.getElementById('list');
+// var getChart = document.getElementById('chart');
 var leftIndex = null;
 var midIndex = null;
 var rightIndex = null;
 
 //RANDOM NUMBER---------------------------------------------------------------------------------------------------------------------------
+var currentPic = []; // this
 function randomItems(){
-  var randomNumber = Math.floor(Math.random() * Items.allImages.length);
+  do{
+    var randomNumber = Math.floor(Math.random() * allItems.length);
+  }
+  while (currentPic.includes(randomNumber));
+  // console.log(currentPic);
   return randomNumber;
 }
 
@@ -25,7 +32,11 @@ function Items(name, image){
   this.clicked = 0;
   this.views = 0;
 
-  Items.allImages.push(this);
+  if (!allItems){
+    allItems=[];
+  }
+  allItems.push(this);
+  updateStorage();
 }
 
 //NO TRIPLE DUPLICATES----------------------------------------------------------------------------------------------------------------
@@ -39,98 +50,131 @@ function renderItems(){
   } while(leftIndex === rightIndex || leftIndex === midIndex || rightIndex === midIndex); //CORRECT
 
   //Viewed---------------------------------------------------------------------------------------------------------------------------------
-  Items.allImages[leftIndex].views++;
-  Items.allImages[midIndex].views++;
-  Items.allImages[rightIndex].views++;
+  allItems[leftIndex].views++;
+  allItems[midIndex].views++;
+  allItems[rightIndex].views++;
 
 
-  leftItems.src = Items.allImages[leftIndex].image;
-  rightItems.src = Items.allImages[rightIndex].image;
-  midItems.src = Items.allImages[midIndex].image;
+  leftItems.src = allItems[leftIndex].image;
+  rightItems.src = allItems[rightIndex].image;
+  midItems.src = allItems[midIndex].image;
 
-  // var array = [];
-  // for ( var i = 0; i< Items.allImages.length; i++){
-  //   Items.allImages[i].view = 1,
+  currentPic = [leftIndex, midIndex,rightIndex];
 
 }
 
 
 //Total Voting round-----------------------------------------------------------------------------------------------------------------------
-var votes = 0;
+var Totalvotes = 0;
 var totalRounds = 10;
 
 //EVENT LISTENER---------------------------------------------------------------------------------------------------------------------------
 var handleClickOnItems = function(event){
-  var itemClicked = event.target.id;
+  event.preventDefault();
 
-  if(itemClicked === 'leftItems' || itemClicked === 'rightItems' || itemClicked === 'middleItems'){
-    votes++;
+  var itemClicked = event.target.id;
+  //  console.log(itemClicked);
+  if(itemClicked === 'leftItems' || itemClicked === 'rightItems' || itemClicked === 'midItems'){
+    Totalvotes++;
+
     if(itemClicked === 'leftItems'){
-      Items.allImages[leftIndex].clicked++;
-    } else if(itemClicked === 'middleItems'){
-      Items.allImages[midIndex].clicked++;
+      allItems[leftIndex].clicked++;
+    } else if(itemClicked === 'midItems'){
+      allItems[midIndex].clicked++;
     } else if(itemClicked === 'rightItems'){
-      Items.allImages[rightIndex].clicked++;
+      allItems[rightIndex].clicked++;
     } else{
       alert('you clicked wrong');
     }
   }
-  //Must Be new Items rerolled------------------------------------------------------------------------------------------------------------
+  endRounds();
+};
 
-
-
-  //Total round---------------------------------------------------------------------------------------------------------------------------
-  if(votes === totalRounds){
-
+//Total round---------------------------------------------------------------------------------------------------------------------------
+function endRounds (){
+  console.log(Totalvotes, totalRounds);
+  if(Totalvotes === totalRounds){
     itemParent.removeEventListener('click', handleClickOnItems);
     alert('Thanks for voting!');
-
-    var labelData = [];
-    var clickData = [];
-    var viewData = [];
-
-    for(var i = 0; i < Items.allImages.length; i++){
-      var item = Items.allImages[i];
-      labelData.push(item.name);
-      clickData.push(item.clicked);
-      viewData.push(item.views);
-
-      var ctx = document.getElementById('chart').getContext('2d');
-
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labelData,
-          datasets: [{
-            label: '# of Clicks',
-            data: clickData,
-            backgroundColor: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue'],
-          }, {
-            label: '# of Views',
-            data: viewData,
-            backgroundColor: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue'],
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          }
-        }
-      }); 
-    }
+    generateChart();
   }
   else{
     renderItems();
-  }
-};
+  } updateStorage();
+  console.log('number of clicks');
+}
+
+
+//CHART------------------------------------------------------------------------------------------------------------------------------
+function generateChart() {
+  // getChart.textContent= '';
+  var labelData = [];
+  var clickData = [];
+  var viewData = [];
+
+  for(var i = 0; i < allItems.length; i++){
+    var item = allItems[i];
+    labelData.push(item.name);
+    clickData.push(item.clicked);
+    viewData.push(item.views);
+
+    var ctx = document.getElementById('chart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labelData,
+        datasets: [{
+          label: '# of Clicks',
+          data: clickData,
+          backgroundColor: ['Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', ],
+        }, {
+          label: '# of Views',
+          data: viewData,
+          backgroundColor: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue'],
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    // var ctx = document.getElementById('chart').getContext('2d');
+
+    // // eslint-disable-next-line no-undef
+    // new Chart(ctx, {
+    //   type: 'bar',
+    //   data: {
+    //     labels: labelData,
+    //     datasets: [{
+    //       label: '# of Clicks',
+    //       data: clickData,
+    //       backgroundColor: ['Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', 'Red', ],
+    //     }, {
+    //       label: '# of Views',
+    //       data: viewData,
+    //       backgroundColor: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Red', 'Blue'],
+    //     }]
+    //   },
+    //   options: {
+    //     scales: {
+    //       yAxes: [{
+    //         ticks: {
+    //           beginAtZero: true
+    //         }
+    //       }]
+    //     }
+    //   }
+    // });
+  }}
+
 
 // ITEMS ARRAY---------------------------------------------------------------------------------------------------------------------
 
-Items.allImages = [];
 
 // Instantiation-------------------------------------------------------------------------------------------------------------------
 new Items('bag', '/assets/bag.jpg');
@@ -156,11 +200,26 @@ new Items('wine-glass', '/assets/wine-glass.jpg');
 
 renderItems();
 
+function updateStorage () {
+  var arrayItems = JSON.stringify(allItems);
+  localStorage.setItem('item', arrayItems);
+
+}
+
+function getItems(){
+  if(localStorage.length > 0){
+    var itemObjects = localStorage.getItem('item');
+    var dataItems = JSON.parse(itemObjects);
+    allItems = dataItems;
+  }
+  renderItems();
+}
+
 // Event for Items-----------------------------------------------------------------------------------------------------------
 itemParent.addEventListener('click', handleClickOnItems)
 ;
 
-
+getItems();
 
 
 // function renderChart() {
