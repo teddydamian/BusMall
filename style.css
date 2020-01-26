@@ -1,13 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Zhi+Mang+Xing&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
 html{
     text-align: center;
+    background-color: #4D4847;
 }
 img{
     height : 300px;
-
 }
 
-ul{
-    line-height: 10px;
-    text-decoration: none;
-    list-style-type: none;
+h1{
+    font-family: 'Zhi Mang Xing', cursive;
+    font-size: 100px;
+    color: #8BAAAD;
+}
+#bus{
+    position: absolute;
+    top: 40px;
+    right: 45px;
+    animation-name: shake;
+    animation-duration: 500ms;
+    animation-iteration-count: 3;
+  }
+  
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+      border-radius: 50px;
+    }
+    50% {
+      transform: translateX(50px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+h2{
+    color: #1C3738;
+    font-family: 'Muli', sans-serif;
+}
+h3{
+    font-family: 'Muli', sans-serif;
+    color:#F4FFF8;
 }
