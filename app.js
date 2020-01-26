@@ -36,6 +36,7 @@ function Items(name, image){
   updateStorage();
 }
 
+
 //NO TRIPLE DUPLICATES----------------------------------------------------------------------------------------------------------------
 function renderItems(){
 
@@ -62,7 +63,7 @@ function renderItems(){
 
 //Total Voting round-----------------------------------------------------------------------------------------------------------------------
 var votes = 0;
-var totalRounds = 10;
+var totalRounds = 25;
 
 //EVENT LISTENER---------------------------------------------------------------------------------------------------------------------------
 var handleClickOnItems = function(event){
@@ -131,8 +132,8 @@ function endRounds(){
   }
   else{
     renderItems();
-  } updateStorage();
-}
+  }
+}updateStorage();
 
 
 // Instantiation-------------------------------------------------------------------------------------------------------------------
@@ -167,4 +168,13 @@ function updateStorage () {
   var arrayItems = JSON.stringify(allItems);
   localStorage.setItem('item', arrayItems);
 }
+
+function getItems(){
+  if(localStorage.length > 0){
+    var itemObjects = localStorage.getItem('item');
+    allItems = JSON.parse(itemObjects);
+  }
+  renderItems();
+}
+
 
