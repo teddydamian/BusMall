@@ -137,26 +137,26 @@ function endRounds(){
 
 
 // Instantiation-------------------------------------------------------------------------------------------------------------------
-new Items('bag', '/assets/bag.jpg');
-new Items('banana', '/assets/banana.jpg');
-new Items('bathroom', '/assets/bathroom.jpg');
-new Items('boots', '/assets/boots.jpg');
-new Items('breakfast', '/assets/breakfast.jpg');
-new Items('bubblegum', '/assets/bubblegum.jpg');
-new Items('chair', '/assets/chair.jpg');
-new Items('cthulhu', '/assets/cthulhu.jpg');
-new Items('dog-duck', '/assets/dog-duck.jpg');
-new Items('dragon', '/assets/dragon.jpg');
-new Items('pen', '/assets/pen.jpg');
-new Items('pet-sweep', '/assets/pet-sweep.jpg');
-new Items('scissors', '/assets/scissors.jpg');
-new Items('shark', '/assets/shark.jpg');
-new Items('sweep', '/assets/sweep.png');
-new Items('tauntaun', '/assets/tauntaun.jpg');
-new Items('unicorn', '/assets/unicorn.jpg');
-new Items('usb', '/assets/usb.gif');
-new Items('water-can', '/assets/water-can.jpg');
-new Items('wine-glass', '/assets/wine-glass.jpg');
+new Items('bag', 'assets/bag.jpg');
+new Items('banana', 'assets/banana.jpg');
+new Items('bathroom', 'assets/bathroom.jpg');
+new Items('boots', 'assets/boots.jpg');
+new Items('breakfast', 'assets/breakfast.jpg');
+new Items('bubblegum', 'assets/bubblegum.jpg');
+new Items('chair', 'assets/chair.jpg');
+new Items('cthulhu', 'assets/cthulhu.jpg');
+new Items('dog-duck', 'assets/dog-duck.jpg');
+new Items('dragon', 'assets/dragon.jpg');
+new Items('pen', 'assets/pen.jpg');
+new Items('pet-sweep', 'assets/pet-sweep.jpg');
+new Items('scissors', 'assets/scissors.jpg');
+new Items('shark', 'assets/shark.jpg');
+new Items('sweep', 'assets/sweep.png');
+new Items('tauntaun', 'assets/tauntaun.jpg');
+new Items('unicorn', 'assets/unicorn.jpg');
+new Items('usb', 'assets/usb.gif');
+new Items('water-can', 'assets/water-can.jpg');
+new Items('wine-glass', 'assets/wine-glass.jpg');
 
 renderItems();
 
